@@ -17,7 +17,7 @@ const Cart = () => {
             _id: items,
             size: item,
             quantity: cartItems[items][item]
-          })
+          }) 
         }
       }
     }
