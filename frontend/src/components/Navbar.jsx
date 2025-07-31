@@ -33,7 +33,7 @@ const Navbar = () => {
       <div className='flex items-center gap-6'>
         <img onClick={()=>setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer' alt="search-icon" />
         <div className='group relative'>
-            <img src={assets.profile_icon} className='w-5 cursor-pointer' alt="profile-icon" />
+         <Link to='/login'><img src={assets.profile_icon} className='w-5 cursor-pointer' alt="profile-icon" /></Link>
          {/* dropdown */}
          <div className='dropdown-menu group-hover:block hidden absolute right-0 pt-4'>
             <div className='flex flex-col gap-2 px-5 py-3 w-36 bg-slate-100 text-gray-500 rounded'>
