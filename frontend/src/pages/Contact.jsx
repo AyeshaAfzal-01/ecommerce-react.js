@@ -16,7 +16,7 @@ const Contact = () => {
           <p className='font-semibold text-xl text-gray-600'>Our Store</p>
           <p className='text-gray-500'>50982 jennefer station <br /> suite 458, Washington DC, USA</p>
           <p className='text-gray-500'>Tel: (412) 777-2100 <br /> Email: admin@foreveryoung.com</p>
-          <p className='font-semibold text-xl text-gray-50'>Careers At ForeverYoung</p>
+          <p className='font-semibold text-xl text-gray-500'>Careers At ForeverYoung</p>
           <p className='text-gray-500'>Learn more about our teams and job openings.</p>
           <button className='border border-black px-8 py-4 text-sm hover:bg-black hover:text-white transition-all duration-500'>Explore Jobs</button>
         </div>
