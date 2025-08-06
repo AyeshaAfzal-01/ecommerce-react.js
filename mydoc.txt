@@ -37,3 +37,4 @@ so run backend by "npm run server"
 also set "type": "module" to use the import statement
 now create a basic server in server.js file
 install extension "Thunder client" to test API's just like postman
+make a getrequest therer
