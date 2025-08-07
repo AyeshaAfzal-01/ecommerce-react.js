@@ -1,10 +1,14 @@
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config' // create a new file "named dotenv like .evn"
+import connectDB from './config/mongodb.js'
+import connectCloudinary from './config/cloudinary.js'
 
 // App Config
 const app = express() // used express package to create an instance of express server
 const port = process.env.PORT || 4000 // if port number is available in .env then it will be used otherwise default 4000
+connectDB()
+connectCloudinary()
 
 // Middlewares
 app.use(express.json()) // whatever request we made that will be parsed with json
