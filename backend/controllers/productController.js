@@ -1,20 +1,26 @@
 // controller function to add the products
 // function for add product
-const addProduct = async () => {
+const addProduct = async (req, res) => {
+// use middleware using multer -> so if i send any file as data then that file will be parsed using multer
+    
 
 }
 
 // function for list product
-const listProduct = async () => {
+const listProduct = async (req, res) => {
 
 }
 
-const removeProduct = async () => {
+// function for remove product
+const removeProduct = async (req, res) => {
 
 }
 
-const singleProduct = async () => {
+// function fro single product
+const singleProduct = async (req,res) => {
 
 }
 
-export default { addProduct, listProduct, removeProduct, singleProduct }
+export { addProduct, listProduct, removeProduct, singleProduct }
+
+// now these 4 controllers will be mounted on four diff routes
