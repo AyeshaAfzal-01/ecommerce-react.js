@@ -3,7 +3,7 @@ packages:
 Navlink comp - extra class - active
 
 
-backend folder
+------>backend folder<-------
 open integrated terminal.
 running two terminals at the same time one for frontend one for backend
 create a server.js file in backend folder
