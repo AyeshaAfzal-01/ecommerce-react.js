@@ -5,7 +5,7 @@ const addProduct = async (req, res) => {
     try {
         // get product details from body
         const {name, description, price, category, subCategory, sizes, bestseller } = req.body;
-        // get images
+        // getting images
         const image1 = req.files.image1[0] // this image1 will be an arr and we are taking the first element of this arr
         const image2 = req.files.image2[0]
         const image3 = req.files.image3[0]
