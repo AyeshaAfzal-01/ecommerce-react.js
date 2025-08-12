@@ -1,5 +1,5 @@
 // controller function to add the products
-// function for add product
+// function for adding product
 const addProduct = async (req, res) => {
 // use middleware using multer -> so if i send any file as data then that file will be parsed using multer
     try {
