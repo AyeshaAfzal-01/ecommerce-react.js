@@ -24,5 +24,5 @@ app.get('/', (req, res) => { // when a request is made on localhost:port like lo
     res.send("API Working")
 })
 
-// start express server hehehaha
+// start express server
 app.listen(port, () => console.log('Server started on PORT: ' + port))
