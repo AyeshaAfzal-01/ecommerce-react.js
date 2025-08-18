@@ -18,7 +18,7 @@ app.use(cors()) // to access backend from any IP
 
 // API endpoints
 app.use('/api/user', userRouter)
-app.use('api/product', productRouter)
+app.use('/api/product', productRouter)
 
 app.get('/', (req, res) => { // when a request is made on localhost:port like localhost:4000/ you will see this -> hit this end point and it will be executed as a get request
     res.send("API Working")
