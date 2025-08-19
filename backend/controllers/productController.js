@@ -1,4 +1,5 @@
 import productModel from '../models/productModel.js'
+import { v2 as cloudinary } from 'cloudinary'
 const addProduct = async (req, res) => {
     try {
         const { name, description, price, category, subCategory, sizes, bestseller } = req.body
@@ -9,27 +10,46 @@ const addProduct = async (req, res) => {
         if (isNaN(priceNum) || priceNum <= 0) {
             return res.json({ success: false, message: "price should be a positive number" })
         }
-        const images = []
-        if (req.files?.image1) images.push(req.files.image1[0].filename)
-        if (req.files?.image2) images.push(req.files.image2[0].filename)
-        if (req.files?.image3) images.push(req.files.image3[0].filename)
-        if (req.files?.image4) images.push(req.files.image4[0].filename)
+        
+        // uploading images to cloudinary
+        const uploadToCloudinary = (file) => { // function to upload a file to cloudinary
+            return cloudinary.uploader.upload(file.path, {
+                folder: "products",
+                resource_type: "image"
+            })
+        }
+        
+        // getting image files from multer
+        const files = [
+            req.files?.image1?.[0],
+            req.files?.image2?.[0],
+            req.files?.image3?.[0],
+            req.files?.image4?.[0]
+        ].filter(Boolean) // remove undefined if some images are missing
+        console.log("files data from multer: ", files)
+        // uploading all images all at once
+        const results = await Promise.all(files.map(file => uploadToCloudinary(file)))
+        // images is an array of imageUrLs
+        const images = results.map(r => r.secure_url)
+        if (images.length === 0 ) {
+            return res.json({success: false, message: "upload atleast one image of product"})
+        }
 
         const allowedSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
-       let sizeArray = []
-       if (Array.isArray(sizes)) {
-        sizeArray = sizes
-       } else {
-        try {
-            sizeArray = JSON.parse(sizes)
-        } catch (e) {
-            sizeArray = sizes.split(",")
+        let sizeArray = []
+        if (Array.isArray(sizes)) {
+            sizeArray = sizes
+        } else {
+            try {
+                sizeArray = JSON.parse(sizes)
+            } catch (e) {
+                sizeArray = sizes.split(",")
+            }
         }
-       }
-       sizeArray = sizeArray.map(s => s.trim().toUpperCase()).filter(s => allowedSizes.includes(s))
-       if (sizeArray.length === 0) {
-        return res.json({ success: false, message: "invalid sizes" })
-       }
+        sizeArray = sizeArray.map(s => s.trim().toUpperCase()).filter(s => allowedSizes.includes(s))
+        if (sizeArray.length === 0) {
+            return res.json({ success: false, message: "invalid sizes" })
+        }
         // storing product in DB
         const newProduct = new productModel({
             name,
