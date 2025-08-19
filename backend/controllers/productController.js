@@ -26,7 +26,7 @@ const addProduct = async (req, res) => {
             req.files?.image3?.[0],
             req.files?.image4?.[0]
         ].filter(Boolean) // remove undefined if some images are missing
-        console.log("files data from multer: ", files)
+        // console.log("files data from multer: ", files)
         // uploading all images all at once
         const results = await Promise.all(files.map(file => uploadToCloudinary(file)))
         // images is an array of imageUrLs
