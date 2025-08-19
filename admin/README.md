@@ -1,1 +1,2 @@
-npm install axios react-router-dom react-toastify
+- npm install axios react-router-dom react-toastify
+- server property in vite.config.js file: You set server.port so each project runs on its own fixed port, avoiding conflicts and making development predictable.
