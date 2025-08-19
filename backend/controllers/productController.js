@@ -35,27 +35,11 @@ const addProduct = async (req, res) => {
             return res.json({success: false, message: "upload atleast one image of product"})
         }
 
-        const allowedSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
-        let sizeArray = []
-        if (Array.isArray(sizes)) {
-            sizeArray = sizes
-        } else {
-            try {
-                sizeArray = JSON.parse(sizes)
-            } catch (e) {
-                sizeArray = sizes.split(",")
-            }
-        }
-        sizeArray = sizeArray.map(s => s.trim().toUpperCase()).filter(s => allowedSizes.includes(s))
-        if (sizeArray.length === 0) {
-            return res.json({ success: false, message: "invalid sizes" })
-        }
-        // storing product in DB
         const newProduct = new productModel({
             name,
             description,
             price: priceNum,
-            sizes: sizeArray,
+            sizes: JSON.parse(sizes),
             bestseller: bestseller || false,
             category,
             subCategory,
