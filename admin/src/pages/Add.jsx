@@ -33,6 +33,10 @@ const Add = ({token}) => {
             toast.error('Add size')
             return
         }
+        if (!image1 && !image2 && !image3 && !image4) {
+            toast.error("Add atleast one image")
+            return
+        }
         try {
             const formData = new FormData()
             formData.append("name", productName)
