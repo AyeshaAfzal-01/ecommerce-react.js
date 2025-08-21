@@ -12,7 +12,7 @@ const LatestCollection = () => {
   // loading latest products
   useEffect(() => {
     setLatestProduct(products.slice(0, 10)); // get first 10 products from the products array
-  }, []);
+  }, [products]);
   return (
     <div className="my-10">
       <div className="text-center py-8 text-3xl">

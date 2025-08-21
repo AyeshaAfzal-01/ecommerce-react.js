@@ -66,7 +66,7 @@ const Collection = () => {
 
   useEffect(()=> {
     applyFilter() // whenever this search or any other variable in dependancy arr get changed then this applyFiler function will be executed
-  }, [category, subCategory, search, showSearch])
+  }, [category, subCategory, search, showSearch, products])
 
   useEffect(()=>{
     sortProductsByPrice()
