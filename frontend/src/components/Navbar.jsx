@@ -6,7 +6,15 @@ import { ShopContext } from '../context/ShopContext'
 const Navbar = () => {
     const [menuVisible, setMenuVisible] = useState(false)
     // getting setshowsearch func from context api
-    const { setShowSearch, getCartCount } = useContext(ShopContext)
+    const { setShowSearch, getCartCount, token, setToken, navigate, setCartItems } = useContext(ShopContext)
+
+    const logout = () => {
+      navigate('/login')
+      localStorage.removeItem('token')
+      setToken('')
+      setCartItems({})
+    }
+
   return (
     <div className='flex text-center justify-between font-medium py-5'>
      <Link to='/'> <img src={assets.logo} className='w-36' alt="logo-img" /></Link>
@@ -33,15 +41,16 @@ const Navbar = () => {
       <div className='flex items-center gap-6'>
         <img onClick={()=>setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer' alt="search-icon" />
         <div className='group relative'>
-         <Link to='/login'><img src={assets.profile_icon} className='w-5 cursor-pointer' alt="profile-icon" /></Link>
-         {/* dropdown */}
-         <div className='dropdown-menu group-hover:block hidden absolute right-0 pt-4'>
+         <img onClick={() => token ? null : navigate('/login')} src={assets.profile_icon} className='w-5 cursor-pointer' alt="profile-icon" />
+         {/* dropdown menu - will only appear if  the user is logged in */}
+         {token && <div className='dropdown-menu group-hover:block hidden absolute right-0 pt-4'>
             <div className='flex flex-col gap-2 px-5 py-3 w-36 bg-slate-100 text-gray-500 rounded'>
                 <p className='cursor-pointer hover:text-black'>My Profile</p>
-                <p className='cursor-pointer hover:text-black'>Orders</p>
-                <p className='cursor-pointer hover:text-black'>Logout</p>
+                <p onClick={()=>navigate('/orders')} className='cursor-pointer hover:text-black'>Orders</p>
+                <p onClick={()=>logout()} className='cursor-pointer hover:text-black'>Logout</p>
             </div>
-         </div>
+         </div>}
+         
         </div>
         <Link to='/cart' className='relative'>
         <img src={assets.cart_icon} className='w-5 min-w-5' alt="cart-icon" />

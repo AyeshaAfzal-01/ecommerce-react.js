@@ -12,6 +12,7 @@ const ShopContextProvider = (props) => {
   const delivery_fee = 10;
   const backendUrl = import.meta.env.VITE_BACKEND_URL
   const [products, setProducts] = useState([])
+  const [token, setToken] = useState('') // user register and login token
 
   // for search bar
   const [search, setSearch] = useState("");
@@ -96,7 +97,6 @@ const ShopContextProvider = (props) => {
     try {
       const response = await axios.get(backendUrl + '/api/product/list')
       if (response.data.success) {
-        console.log(response.data.products)
         setProducts(response.data.products)
       } else {
         toast.error(response.data.message)
@@ -109,6 +109,12 @@ const ShopContextProvider = (props) => {
   useEffect(()=> {
     getProductsFromBackend()
   }, [])
+
+  useEffect(()=>{ // when page refreshes state becomes null so token also becomes null thats why page refresh takes to the  login page to solve this I am taking the token from local storage
+    if (!token && localStorage.getItem('token')) { // if token state is null but there is token in local storage
+      setToken(localStorage.getItem('token'))
+    }
+  })
 
   const value = {
     products,
@@ -124,7 +130,9 @@ const ShopContextProvider = (props) => {
     updateQuantity,
     getCartAmount,
     navigate,
-    backendUrl  // using context api we can access these in any component
+    backendUrl,
+    token,
+    setToken  // using context api we can access these in any component
   };
 
   return (
