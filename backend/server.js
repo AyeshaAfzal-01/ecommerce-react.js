@@ -6,6 +6,7 @@ import connectCloudinary from './config/cloudinary.js'
 import userRouter from './routes/userRoute.js'
 import productRouter from './routes/productRoute.js'
 import cartRouter from './routes/cartRouter.js'
+import orderRouter from './routes/orderRouter.js'
 
 // App Config
 const app = express() // used express package to create an instance of express server
@@ -21,6 +22,7 @@ app.use(cors()) // to access backend from any IP
 app.use('/api/user', userRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
+app.use('/api/order', orderRouter)
 
 app.get('/', (req, res) => { // when a request is made on localhost:port like localhost:4000/ you will see this -> hit this end point and it will be executed as a get request
     res.send("API Working")
