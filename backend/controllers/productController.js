@@ -47,7 +47,7 @@ const addProduct = async (req, res) => {
             date: Date.now()
         })
         await newProduct.save() // save in DB
-        res.json({ success: true, message: "product saved in DB", product: newProduct })
+        res.json({ success: true, message: "Product Added", product: newProduct })
     } catch (error) {
         console.log(error)
         return res.json({ success: false, message: error.message })

@@ -29,12 +29,13 @@ const Add = ({token}) => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
-        if (sizes.length === 0) {
-            toast.error('Add size')
-            return
-        }
+        
         if (!image1 && !image2 && !image3 && !image4) {
             toast.error("Add atleast one image")
+            return
+        }
+        if (sizes.length === 0) {
+            toast.error('Add size')
             return
         }
         try {
@@ -54,8 +55,25 @@ const Add = ({token}) => {
 
             const response = await axios.post(backendUrl + '/api/product/add', formData, {headers:{token}})
             console.log(response)
+            if(response.data.success) {
+                toast.success(response.data.message)
+                setProductName('')
+                setDescription('')
+                setImage1(null)
+                setImage2(null)
+                setImage3(null)
+                setImage4(null)
+                setPrice('')
+                setCategory('Men')
+                setSubCategory('Topwear')
+                setBestseller(false)
+                setSizes([])
+            } else {
+                toast.error(response.data.message)
+            }
         } catch (error) {
-
+            console.log(error)
+            toast.error(response.data.message)
         }
     }
     
