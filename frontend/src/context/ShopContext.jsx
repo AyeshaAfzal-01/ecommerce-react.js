@@ -44,6 +44,14 @@ const ShopContextProvider = (props) => {
     }
 
     setCartItems(cartData);
+    if (token) {
+      try {
+        await axios.post(backendUrl + '/api/cart/add', { itemId, size }, { headers: { token } })
+      } catch (error) {
+        console.log(error)
+        toast.error(error.message)
+      }
+    }
   };
 
   // to update the count on cart icon
@@ -58,7 +66,7 @@ const ShopContextProvider = (props) => {
             // increase count
             totalCount += cartItems[items][item];
           }
-        } catch (error) {}
+        } catch (error) { }
       }
     }
     return totalCount;
@@ -74,19 +82,29 @@ const ShopContextProvider = (props) => {
     let cartData = structuredClone(cartItems); // copy
     cartData[itemId][size] = quantity;
     setCartItems(cartData);
+
+    if (token) {
+      try {
+        await axios.post(backendUrl + '/api/cart/update', { itemId, size, quantity }, { headers: { token } })
+      } catch (error) {
+        console.log(error)
+        toast.error(error.message)
+      }
+    }
   };
 
   const getCartAmount = () => {
     let totalAmount = 0;
-    for(const items in cartItems) {
-      let itemInfo = products.find((product)=> product._id === items)
-      for(const item in cartItems[items]) {
+    for (const items in cartItems) {
+      let itemInfo = products.find((product) => product._id === items)
+      for (const item in cartItems[items]) {
         try {
-          if(cartItems[items][item] > 0) {
+          if (cartItems[items][item] > 0) {
             totalAmount += itemInfo.price * cartItems[items][item]
           }
         } catch (error) {
-
+          console.log(error)
+          toast.error(error.message)
         }
       }
     }
@@ -106,15 +124,31 @@ const ShopContextProvider = (props) => {
       toast.error(error.message)
     }
   }
-  useEffect(()=> {
+
+  const getUserCartDataFromDB = async (token) => {
+    try {
+      const response = await axios.post(backendUrl + '/api/cart/get', {}, { headers: { token } })
+      if (response.data.success) {
+        setCartItems(response.data.cartData)
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
+  useEffect(() => {
     getProductsFromBackend()
+    if (token) {
+      getUserCartDataFromDB(localStorage.getItem('token'))
+    }
   }, [])
 
-  useEffect(()=>{ // when page refreshes state becomes null so token also becomes null thats why page refresh takes to the  login page to solve this I am taking the token from local storage
+  useEffect(() => { // when page refreshes state becomes null so token also becomes null thats why page refresh takes to the  login page to solve this I am taking the token from local storage
     if (!token && localStorage.getItem('token')) { // if token state is null but there is token in local storage
       setToken(localStorage.getItem('token'))
+      getUserCartDataFromDB(localStorage.getItem('token'))
     }
-  })
+  }, [])
 
   const value = {
     products,
