@@ -1,6 +1,30 @@
+import orderModel from "../models/orderModel.js"
+import userModel from "../models/userModel.js"
+
 // placing order using COD method 
 const placeOrderCOD = async (req, res) => {
+    try {
+        const { userId, items, amount, address } = req.body // userId coming from auth.js rest of stuff from frontend
+        const orderData ={
+            userId,
+            items,
+            address,
+            amount,
+            paymentMethod: "COD",
+            payment: false, // payment not delivered yet -> cash on delivery
+            date: Date.now()
+        }
 
+        const newOrder = new orderModel(orderData)
+        await newOrder.save()
+
+        await userModel.findByIdAndUpdate(userId, {cartData: {}}) // after placing order update user cart to empty
+        res.json({success: true, message: "COD order placed"})
+
+    } catch (error) {
+        console.log(error)
+        return res.json({success: false, message: error.message})
+    }
 }
 
 // placing order using razorpay
