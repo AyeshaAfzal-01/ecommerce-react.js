@@ -72,9 +72,9 @@ const ShopContextProvider = (props) => {
     return totalCount;
   };
 
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
+  // useEffect(() => {
+  //   console.log(cartItems);
+  // }, [cartItems]);
 
   // to update cart data -> e.g to delete a product from cart
   const updateQuantity = async (itemId, size, quantity) => {
@@ -97,6 +97,7 @@ const ShopContextProvider = (props) => {
     let totalAmount = 0;
     for (const items in cartItems) {
       let itemInfo = products.find((product) => product._id === items)
+      if (!itemInfo) continue; // if product with this id does'nt exist
       for (const item in cartItems[items]) {
         try {
           if (cartItems[items][item] > 0) {
@@ -159,6 +160,7 @@ const ShopContextProvider = (props) => {
     showSearch,
     setShowSearch,
     cartItems,
+    setCartItems,
     addToCart,
     getCartCount,
     updateQuantity,
