@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 
 const Orders = () => {
-  const { products, backendUrl, token, currency } = useContext(ShopContext)
+  const { backendUrl, token, currency } = useContext(ShopContext)
   const [orderData, setOrderData] = useState([])
 
   // each user has an array of orders and each order has an arr of items
