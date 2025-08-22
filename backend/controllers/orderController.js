@@ -39,7 +39,13 @@ const placeOrderStripe = async (req, res) => {
 
 // All orders Data for admin panel
 const AllOrders = async (req, res) => {
-
+    try {
+        const allOrders = await orderModel.find({}) // find() and find({}) are equivalent -> find({}) adds more clarity like find all documents without any condition
+        res.json({success: true, message: 'all orders fetched', allOrders})
+    } catch (error) {
+        console.log(error)
+        return res.json({success: false, message: error.message})
+    }
 }
 
 // user order data for frontend
