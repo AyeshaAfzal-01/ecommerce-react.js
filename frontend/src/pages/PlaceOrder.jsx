@@ -31,7 +31,7 @@ const PlaceOrder = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     try {
-      let orderItems = []
+      let orderItems = [] // an arr of objects
 
       for (const items in cartItems) {
         for (const item in cartItems[items]) {

@@ -5,7 +5,7 @@ import userModel from "../models/userModel.js"
 const placeOrderCOD = async (req, res) => {
     try {
         const { userId, items, amount, address } = req.body // userId coming from auth.js rest of stuff from frontend
-        const orderData ={
+        const orderData = {
             userId,
             items,
             address,
@@ -14,16 +14,16 @@ const placeOrderCOD = async (req, res) => {
             payment: false, // payment not delivered yet -> cash on delivery
             date: Date.now()
         }
-
+  
         const newOrder = new orderModel(orderData)
         await newOrder.save()
 
-        await userModel.findByIdAndUpdate(userId, {cartData: {}}) // after placing order update user cart to empty
-        res.json({success: true, message: "COD order placed"})
+        await userModel.findByIdAndUpdate(userId, { cartData: {} }) // after placing order update user cart to empty
+        res.json({ success: true, message: "COD order placed" })
 
     } catch (error) {
         console.log(error)
-        return res.json({success: false, message: error.message})
+        return res.json({ success: false, message: error.message })
     }
 }
 
@@ -44,7 +44,14 @@ const AllOrders = async (req, res) => {
 
 // user order data for frontend
 const userOrders = async (req, res) => {
-
+    try {
+        const { userId } = req.body
+        const orders = await orderModel.find({ userId })
+        res.json({success:true, message: 'order data fetched', orders})
+    } catch (error) {
+        console.log(error)
+        return res.json({ success: false, message: error.message })
+    }
 }
 
 // update order status from admin panel
@@ -52,4 +59,4 @@ const updateStatus = async (req, res) => {
 
 }
 
-export { placeOrderCOD, placeOrderRazorpay, placeOrderStripe, AllOrders, userOrders, updateStatus}
+export { placeOrderCOD, placeOrderRazorpay, placeOrderStripe, AllOrders, userOrders, updateStatus }
