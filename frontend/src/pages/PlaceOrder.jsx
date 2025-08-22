@@ -33,7 +33,7 @@ const PlaceOrder = () => {
     try {
       let orderItems = [] // an arr of objects
 
-      for (const items in cartItems) {
+      for (const items in cartItems) { // cartItems have only id, size & quantity -> to get full product details(e.g name,pice,desc) gonna do this
         for (const item in cartItems[items]) {
           if (cartItems[items][item] > 0) {
             const itemInfo = structuredClone(products.find(product => product._id === items)) // itemINfo is obj
