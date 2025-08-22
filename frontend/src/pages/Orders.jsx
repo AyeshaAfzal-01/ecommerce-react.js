@@ -17,7 +17,6 @@ const Orders = () => {
       }
       const response = await axios.post(backendUrl + '/api/order/userorders', {}, {headers:{token}})
       let allOrdersItem = []
-      console.log(response.data)
       if (response.data.success) {
         response.data.orders.map((order) => {
           order.items.map((item) => {
@@ -39,8 +38,10 @@ const Orders = () => {
   }
 
   useEffect(()=> {
+    if (token) {
     getOrderDataFromDB()
-  }, [])
+    }
+  }, [token])
   
   return (
     <div className='border-t pt-16'>
